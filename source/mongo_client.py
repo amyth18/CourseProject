@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import pandas as pd
 
 # TODO: from env.
 conn_string = "mongodb://localhost:27017"
@@ -13,3 +14,12 @@ class MongoDBClient:
         cur = self._db.sync_status.find({"_id": 1})
         return cur.next()
 
+    def get_all_messages(self):
+        cursor = self._db.emails.find({})
+        return pd.DataFrame(list(cursor))
+
+
+if __name__ == "__main__":
+    mc = MongoDBClient()
+    df = mc.get_all_messages()
+    df.to_csv("emails.csv")
