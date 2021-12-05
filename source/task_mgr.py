@@ -1,19 +1,68 @@
 from concurrent.futures import ThreadPoolExecutor
 from datapipe import DataPipe
-import pickle
+from topic_model import TopicModel
+from mongo_client import MongoDBClient
+import time
+import traceback
+import logger
 
-ACCESS_TOKEN_FILE = "token.pickle"
+
+def update_analyze_finished(mdb, end_time):
+    mdb.analyze_status.update_one(
+        {'_id': 1},
+        {
+            '$set': {
+                'analyze_finish_time': end_time,
+                'analyze_status': "completed"
+            }
+        }
+    )
+
+
+def update_analyze_started(mdb, start_time):
+    mdb.analyze_status.update_one(
+        {'_id': 1},
+        {
+            '$set': {
+                'analyze_start_time': start_time,
+                'analyze_status': "analyzing",
+                'failure_reason': ""
+            }
+        },
+        upsert=True
+    )
+
+
+def update_analyze_failed(mdb, error_msg):
+    mdb.analyze_status.update_one(
+        {'_id': 1},
+        {
+            '$set': {
+                'analyze_status': "failed",
+                'failure_reason':  error_msg
+            }
+        }
+    )
 
 
 def data_sync_task():
-    with open(ACCESS_TOKEN_FILE, "rb") as tf:
-        cred = pickle.load(tf)
-    dp = DataPipe(cred, "mongodb://localhost:27017")
-    dp.sync_data()
+    dp = DataPipe("mongodb://localhost:27017",
+                  test_run=True)
+    # only look for messages in INBOX
+    dp.sync_data(label="cs410")
 
 
-def data_analyze_task():
-    pass
+def analyze_data_task():
+    mdb = MongoDBClient()
+    try:
+        update_analyze_started(mdb.get_db_handle(), round(time.time()))
+        # tpm = TopicModel()
+        # tpm.discover()
+        time.sleep(60)
+        update_analyze_finished(mdb.get_db_handle(), round(time.time()))
+    except Exception as e:
+        logger.error(traceback.format_exc())
+        update_analyze_failed(mdb.get_db_handle(), str(e))
 
 
 class TaskMgr:
@@ -22,14 +71,3 @@ class TaskMgr:
 
     def execute_task(self, task):
         self._exe.submit(task)
-
-
-def test_task():
-    print("Hi, I am a test task.")
-
-
-if __name__ == "__main__":
-    tm = TaskMgr()
-    tm.execute_task(test_task)
-
-
