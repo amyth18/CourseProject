@@ -9,3 +9,6 @@ pandas
 contractions
 inflect
 gensim
+numpy
+sklearn
+spacy
