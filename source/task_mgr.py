@@ -46,8 +46,7 @@ def update_analyze_failed(mdb, error_msg):
 
 
 def data_sync_task():
-    dp = DataPipe("mongodb://localhost:27017",
-                  test_run=True)
+    dp = DataPipe()
     # only look for messages in INBOX
     dp.sync_data(label="cs410")
 
@@ -56,9 +55,8 @@ def analyze_data_task():
     mdb = MongoDBClient()
     try:
         update_analyze_started(mdb.get_db_handle(), round(time.time()))
-        # tpm = TopicModel()
-        # tpm.discover()
-        time.sleep(60)
+        tpm = TopicModel()
+        tpm.discover()
         update_analyze_finished(mdb.get_db_handle(), round(time.time()))
     except Exception as e:
         logger.error(traceback.format_exc())
@@ -69,5 +67,6 @@ class TaskMgr:
     def __init__(self):
         self._exe = ThreadPoolExecutor(max_workers=5)
 
+    # TODO: thread reaping for errors?
     def execute_task(self, task):
         self._exe.submit(task)

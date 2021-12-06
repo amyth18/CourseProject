@@ -1,11 +1,10 @@
-from collections import defaultdict
 from gensim import corpora
 from gensim import models
 from gensim.models import Phrases
 
 from pprint import pprint
 from mongo_client import MongoDBClient
-import sys
+
 
 mdb = MongoDBClient()
 df = mdb.get_all_messages()

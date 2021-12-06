@@ -1,8 +1,9 @@
 from pymongo import MongoClient
 import pandas as pd
+import os
 
 # TODO: from env.
-conn_string = "mongodb://localhost:27017"
+conn_string = os.environ.get("MONGO_CONN_STRING", "mongodb://localhost:27017")
 
 
 class MongoDBClient:

@@ -24,7 +24,8 @@ ACCESS_TOKEN_FILE = "token.pickle"
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
-          'https://www.googleapis.com/auth/gmail.send']
+          'https://www.googleapis.com/auth/gmail.send',
+          'https://www.googleapis.com/auth/gmail.labels']
 
 API_SERVICE_NAME = 'gmail'
 API_VERSION = 'v1'
@@ -106,6 +107,7 @@ def oauth2callback():
     with open(ACCESS_TOKEN_FILE, "wb") as tf:
         pickle.dump(credentials_to_dict(credentials), tf)
 
+    # TODO: use redirect
     return app.send_static_file("index.html")
 
 
@@ -288,4 +290,4 @@ if __name__ == '__main__':
     # Specify a hostname and port that are set as a valid redirect URI
     # for your API project in the Google API Console.
     reset_running_jobs()
-    app.run('localhost', 8080, debug=True)
+    app.run('0.0.0.0', 8080, debug=True)

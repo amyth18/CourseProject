@@ -1,7 +1,3 @@
-# credit :
-# this preprocessor code was borrowed from
-# https://gist.github.com/MrEliptik/b3f16179aa2f530781ef8ca9a16499af
-#
 import re
 import unicodedata
 import nltk
@@ -10,9 +6,11 @@ import inflect
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
-from logger import logger
+
 
 nltk.download('stopwords')
+nltk.download('punkt')
+
 ACCESS_TOKEN_FILE = "token.pickle"
 
 

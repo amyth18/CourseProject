@@ -3,15 +3,16 @@ from pymongo import MongoClient
 import time
 from logger import logger
 import traceback
+import mongo_client
 
 CLIENT_SECRETS_FILE = "client_secret.json"
 ACCESS_TOKEN_FILE = "token.pickle"
 
 
 class DataPipe:
-    def __init__(self, conn_string, test_run=False):
+    def __init__(self, test_run=False):
         self._gmail_client = GmailClient()
-        self._mongodb_client = MongoClient(conn_string)
+        self._mongodb_client = MongoClient(mongo_client.conn_string)
         self._db = self._mongodb_client.maximus
         self._downloaded = 0
         self._test_run = test_run
@@ -110,6 +111,6 @@ class DataPipe:
 
 if __name__ == "__main__":
     # test code.
-    dp = DataPipe("mongodb://localhost:27017")
+    dp = DataPipe()
     dp.sync_data(label="cs410")
 
