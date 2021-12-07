@@ -1,21 +1,16 @@
-* docker compose
-
-* script to seed emails in amythcloud@gmail.com
+* seed emails in amythcloud@gmail.com
 
 * meaningful topic name (some ideas below)
     * pre-defined topic (with seed words), find closet match
 
-
-* analyze button and status (done)
-* data sync button and status (done)
-* label related changes (remove hard coding) (done)
---------------------------------------------------------------
 * list emails view (to launch into gmail if possible)
     * and per email topic?
---------------------------------------------------------------
-* Google OAuth for Cloud hosting.
-* cloud deploy
 
+* documentation and presentation.
+
+* raw email dump to Praveen.
+
+NOTE TO MYSELF:
 DON'T SWEAT ABOUT MAKING DEPLOYMENT FANCY.
 JUST INSTALL "FRESH" DOCKER CONTAINERS ON DG SERVER AND PROVIDE CREDENTIALS
 NO NEED TO PROVIDE RESET OPTION AS WELL. ONLY BUILD A WAY TO LAUNCH AUTH

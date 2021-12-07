@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button"
 import Modal from 'react-bootstrap/Modal'
 import { Spinner } from 'react-bootstrap';
 import { Badge } from "react-bootstrap";
-import { ExclamationCircleFill, CheckCircleFill } from 'react-bootstrap-icons';
+import { ExclamationCircleFill, CheckCircleFill, QuestionCircleFill} from 'react-bootstrap-icons';
 
 class AnalyzeButton extends Component {
 
@@ -87,6 +87,13 @@ class AnalyzeButton extends Component {
     return ""
   }
 
+  isFirstTime() {
+    if (this.state.analyzeStatus.analyze_status === 'not analyzed') {
+      return(true)
+    }
+    return(false) 
+  }
+
   render() {
     let buttonToReturn = null
     if (this.isAnalyzeRunning()) {
@@ -105,6 +112,8 @@ class AnalyzeButton extends Component {
       let status = null
       if (this.didAnalyzeFail()) {
         status = <ExclamationCircleFill color="red"/>
+      } else if (this.isFirstTime()) {
+        status = <QuestionCircleFill color="orange"/> 
       } else {
         status = <CheckCircleFill color="green"/>
       }

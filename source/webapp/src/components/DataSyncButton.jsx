@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button"
 import Modal from 'react-bootstrap/Modal'
 import { Spinner } from 'react-bootstrap';
 import { Badge } from "react-bootstrap";
-import { ExclamationCircleFill, CheckCircleFill } from 'react-bootstrap-icons';
+import { ExclamationCircleFill, CheckCircleFill, QuestionCircleFill} from 'react-bootstrap-icons';
 
 class DataSyncButton extends Component {
 
@@ -77,6 +77,13 @@ class DataSyncButton extends Component {
     return(false)
   }
 
+  isFirstTime() {
+    if (this.state.dataSyncStatus.sync_status === 'not synced') {
+      return(true)
+    }
+    return(false) 
+  }
+
   getTimeString(epcTime) {
     if (epcTime != null) {
       let fTime = new Date(epcTime * 1000)
@@ -104,6 +111,8 @@ class DataSyncButton extends Component {
       let status = null
       if (this.didDataSyncFail()) {
         status = <ExclamationCircleFill color="red"/>
+      } else if (this.isFirstTime()) {
+        status = <QuestionCircleFill color="orange"/> 
       } else {
         status = <CheckCircleFill color="green"/>
       }
