@@ -7,6 +7,11 @@ In spite of the advent of many communication tools e.g. social media, slack etc.
 
 # Team Members
 
+Name | Email Address
+--- | --- 
+Ameet Deulgaonkar | ameetd2@illinois.edu
+Praveen Purohit | purohit4@illinois.edu
+
 # What did we accomplish?
 We were able to build a basic WebApp (dockerized python based Flask application) that downloads emails from a user's Gmail Inbox 
 and discovers the latent topics in the email corpus. We used the LDA implementation from Gensim package for topic modelling. 
@@ -54,7 +59,18 @@ This is one of key components of the application as the success of topic modelin
 ### Topic Modeling Engine
 This module is the heart of the application. It loads pre-processed emails from the MongoDB collection constructs a vocabulary followed by a TF-IDF transformation of each email and then trains a LDA model using ```Gensim``` python package. The parameters of the model like ```#topics```, ```passes``` and ```iterations``` are fixed based on cross validation exercise that was done out-of-band inorder to reduce the topic discovery time. We also use the topic coherence metric as decribed [here](https://rare-technologies.com/what-is-topic-coherence/) to select the topics whose constituent words are most coherent. Using the trained LDA model we then discover the topic coverage for each email and tag each email with a set of topic(s) with  ```>=.30``` coverage in the email. The code for this module can ```topic_model.py```.
 
+### Topic Dashboard
+This is the front end of the application build using ```ReactJS```. The code is located in the ```source/webapp``` folder. The front end shows simple ```ReactJS``` cards, one for each topic discovered. Inside each card we should top10 words with highest probability mass. We also list of message that have a significant coverage of this topic >0.30) categorized as read vs. unread.
+
+## Building Code
+All code is in ```source``` directory. To build a fresh docker image of the application, first build the front end ```$cd webapp/; yarn build```. Then run the ```./build.sh``` script in the ```source```folder. After that ```docker-compose up``` should automatically run the new image.
+
 # Challenges
+There are 2 major challenges we ran into during this project.
+1. It took considerable time and effort to clean the email data (mostly due to various MIME type) and get the extracted text to a form that our topic modelling module could consume.
+2. It was difficult to evaluate the quality of topics that our LDA model generated due the unsupervised nature of the algorithm. Also paramters tuned for one Inbox did not generalize well for other Inbox. The idea of topic coherence was useful (but not sufficient) metric to select model parameters atleast for within the scope of a dataset (i.e Inbox).
 
 # Future Work
-1. However we believe the number of topics needs to be determined more dynamically as it can differ for each user's Inbox.
+1. In order to produce meaningful results for each user's Inbox we believe the number of topics (and other model paramters) needs to be determined more dynamically as it can differ for each user's Inbox. This can be quite time consuming especially for large Inbox sizes.
+2. We believe we can use the topics assigned to each email can be useful/effective in clustering similar emails or help user find related emails easily.
+3. Use topic labels as additional input/features for spam vs. ham classification.
