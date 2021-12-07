@@ -1,4 +1,4 @@
-# Our Main Functional Goal(s)
+# Functional Goal(s)
 In spite of the advent of many communication tools e.g. social media, slack etc., emails still continues to occupy an important position in one's communiation tool chest. The main goal of this project code names "Maximus", was to perform topic modelling on a user's Inbox (Gmail) and assign topics to each email. We belive this would help users in dealing with a deluge of emails they recieve every day/month by summarizing the main topics dicovered in their Inbox (e.s.p the unread emails) and help them focus on the most important emails that they are most interested.
 
 # Related Documents
@@ -11,6 +11,7 @@ In spite of the advent of many communication tools e.g. social media, slack etc.
 We were able to build a basic WebApp (dockerized python based Flask application) that downloads emails from a user's Gmail Inbox 
 and discovers the latent topics in the email corpus. We used the LDA implementation from Gensim package for topic modelling. 
 We were also able to discover topic coverage for each email in the Inbox and were able to asociate topic label(s) to each email. 
+
 We built dashboard (using ReactJS) to display the topics and number of emails associated with each topic.
 
 [TBD insert image of dashboard]
@@ -39,7 +40,21 @@ There are 2 ways to install and use the application.
 8. Once you see a green tick mark on the ```Analyze Emails``` button, refresh the page to see all the topics discovered in our Inbox :-).
 
 # Software Design and Implementation Details
+The following diagram depicts the key component of the application and the flow of data between these components.
+![maximus](https://user-images.githubusercontent.com/8692284/145074979-2c9154fa-4d69-431b-8204-100e3b4650bf.png)
+
+The major components of the application are as follows:
+
+### Data PipeLine
+This component is responsible for bringing in emails from Gmail service, passing them through a pre-processor (see below) and storing them in MongoDB document collection called ```maximus.emails```. The code for this mode can be found in ```datapipe.py```. This module heavily uses with ```gmail_client.py``` to interact with gmail service.
+
+### Data Pre-Processor
+This is one of key components of the application as the success of topic modeling depends heavily on the quality of data. The module is responsible for extracting text from emails of differen MIME types (using a package called ```BeautifulSoup```), tokenizing, stemming and removing stop words. We also remove all tokens with non-ascii characters, purely numeric tokens etc. Most of the code for this module can be found in ```preprocessor.py```.
+
+### Topic Modeling Engine
+This module is the heart of the application. It loads pre-processed emails from the MongoDB collection constructs a vocabulary followed by a TF-IDF transformation of each email and then trains a LDA model using ```Gensim``` python package. The parameters of the model like ```#topics```, ```passes``` and ```iterations``` are fixed based on cross validation exercise that was done out-of-band inorder to reduce the topic discovery time. We also use the topic coherence metric as decribed [here](https://rare-technologies.com/what-is-topic-coherence/) to select the topics whose constituent words are most coherent. Using the trained LDA model we then discover the topic coverage for each email and tag each email with a set of topic(s) with  ```>=.30``` coverage in the email. The code for this module can ```topic_model.py```.
 
 # Challenges
 
 # Future Work
+1. However we believe the number of topics needs to be determined more dynamically as it can differ for each user's Inbox.
