@@ -29,8 +29,8 @@ There are 2 ways to install and use the application.
 5.  The application can be accessed at url ```http://localhost:8080```
 
 ### Or, Use our Cloud Instance
-1. If you do not want to run locally or have run into issues, you can choose to access the application hosted at ```http://tbd:8080```
-2. In this mode you directly start from step#5 above.
+1. If you do not want to run locally or have run into issues, you can choose to access the application hosted at ```http://138.68.131.219:8080```
+2. This instance is already configured with a test gmail account (amythcloud@gmail.com). See details in the below section.
 
 ### Getting Started with Topic Discovery
 1. Now for the fun part. To discover latent topics in your Gmail Inbox (only Gmail for now) you will have to authorize the app to read emails from your Inbox. Don't panic! we are not going to read all your email :-). Instead, We ask you add a label called ```cs410``` for emails that you are OK with app accessing it e.g. spam mail, promotions etc. We ONLY read emails tagged ```cs410``` from your inbox, if you have not tagged anything we read zero emails.
