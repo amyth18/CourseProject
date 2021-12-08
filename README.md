@@ -38,7 +38,7 @@ There are 2 ways to install and use the application.
 4. Hitting the url first time will automatically direct you to Google to get your authorization for accessing your inbox. [handle issue with test account, give access to amythcloud?]
 5. Once authorization is successful, you can hit the ```Sync Emails``` at the top right corner and hit ```Sync``` on the popped dialog and wait for spinner to stop. In case of error(s) a red badge appears on the button, click on the button to open the same dialog again to know the cause. The sync may take time depending on emails and network speed. The blue badge shows total cound of downloaded message.
 7. Once ```Sync Email``` button show green tick mark, hit the ```Analyze``` button to discover topics. Again wait still the spinner stops and a green tick mark appears on the ```Analyze Emails``` button.
-8. Once you see a green tick mark on the ```Analyze Emails``` button, refresh the page to see all the topics discovered in our Inbox :-).
+8. Once you see a green tick mark on the ```Analyze Emails``` button, **REFRESH** the dashboard page to see all the topics discovered in our Inbox :-).
 
 # Software Design and Implementation Details
 The following diagram depicts the key component of the application and the flow of data between these components.
