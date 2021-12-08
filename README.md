@@ -75,6 +75,6 @@ There are 2 major challenges we ran into during this project.
 
 Name | Email Address | Contributions
 --- | --- | ---
-Ameet Deulgaonkar | ameetd2@illinois.edu | TBD
-Praveen Purohit | purohit4@illinois.edu  | TBD
+Ameet Deulgaonkar | ameetd2@illinois.edu |  <ul><li> Built the data pipeline to download and pre-process emails. <li> Built the flask backend and ReactJS front dashboard. <li> Implemented the corpus level topic modelling using LDA <li> packaging and installation </ul>
+Praveen Purohit | purohit4@illinois.edu  | <ul> <li> Built the per emails topic discovery to summarize email. <li>Experimented with various topic modelling approaches LDA, NMF and PLSA and helped pick the right model for our use case. <li>Testing application </ul>
 
