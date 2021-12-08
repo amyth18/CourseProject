@@ -42,6 +42,7 @@ There are 2 ways to install and use the application.
 
 # Software Design and Implementation Details
 The following diagram depicts the key component of the application and the flow of data between these components.
+
 ![maximus](https://user-images.githubusercontent.com/8692284/145074979-2c9154fa-4d69-431b-8204-100e3b4650bf.png)
 
 The major components of the application are as follows:
