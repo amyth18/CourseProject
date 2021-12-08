@@ -1,5 +1,5 @@
 # Overview
-This Readme file serves as our final documentation of our project. As per the submission guidelines this document covers our original functional goals as stated our proposal, what we were able to accomoplish and implementation details. We also provide details about installation and user guide for our application. We conclude with key challenges we faced during the project and some future work.
+This Readme file serves as the final documentation of our project. As per the submission guidelines this document covers our original functional goals as stated our proposal, what we were able to accomoplish and implementation details. We also provide details about installation and user guide for our application. We conclude with key challenges we faced during the project and some future work.
 
 # Related Documents
 * Project Proposal ([Project Proposal.pdf](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf))
@@ -15,7 +15,7 @@ We were also able to discover topic coverage for each email in the Inbox and wer
 
 We built dashboard (using ReactJS) to display the topics and number of emails associated with each topic.
 
-[TBD insert image of dashboard]
+<img width="800" align="center" alt="Topic Dashboard" src="https://user-images.githubusercontent.com/8692284/145165791-9e3d3f2b-703d-4f5f-a325-725317182a08.png">
 
 # Installation and User Guide
 There are 2 ways to install and use the application.
