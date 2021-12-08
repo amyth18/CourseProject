@@ -12,8 +12,8 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    
-    fetch('http://localhost:8080/topic-summary')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/topic-summary'
+    fetch(api)
     .then(res => res.json())
     .then((data) => {
       this.setState({ topics: data })
@@ -21,7 +21,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    return (
+    return (  
       <React.Fragment>
       <NavBar />
       <main className="container">

@@ -19,7 +19,8 @@ class DataSyncButton extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/data-sync-status')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/data-sync-status'
+    fetch(api)
       .then(res => res.json())
         .then((data) => {
           this.setState({dataSyncStatus: data })
@@ -32,8 +33,8 @@ class DataSyncButton extends Component {
   }
 
   dataSyncPoller() {
-    // console.log("in dataSyncPoller()")
-    fetch('http://localhost:8080/data-sync-status')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/data-sync-status'
+    fetch(api)
       .then(res => res.json())
         .then((data) => {
           this.setState({ dataSyncStatus: data})          
@@ -47,8 +48,8 @@ class DataSyncButton extends Component {
   openModal = () => this.setState({ isDialogOpen: true });
 
   triggerSyncAndClose = () => {
-    console.log("in triggerSyncAndClose()")
-    fetch('http://localhost:8080/data-sync')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/data-sync'
+    fetch(api)
       .then(() => {
           console.log("triggered data sync")
           const thisBoundedDataSyncPoller = this.dataSyncPoller.bind(this)

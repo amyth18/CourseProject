@@ -18,7 +18,8 @@ class AnalyzeButton extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/analyze-status')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/analyze-status'
+    fetch(api)
       .then(res => res.json())
         .then((data) => {
           this.setState({analyzeStatus: data })
@@ -31,8 +32,8 @@ class AnalyzeButton extends Component {
   }
 
   analyzePoller() {
-    console.log("in analyzePoller()")
-    fetch('http://localhost:8080/analyze-status')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/analyze-status'
+    fetch(api)
       .then(res => res.json())
         .then((data) => {
           this.setState({ analyzeStatus: data})
@@ -47,8 +48,8 @@ class AnalyzeButton extends Component {
   openModal = () => this.setState({ isDialogOpen: true });
 
   triggerAnalyzeAndClose = () => {
-    console.log("in triggerAnalyzeAndClose()")
-    fetch('http://localhost:8080/analyze-emails')
+    const api = process.env.REACT_APP_API_ENDPOINT + '/analyze-emails'
+    fetch(api)
       .then(() => {
           console.log("triggered analysis")
           const thisBoundedAnalyzerPoller = this.analyzePoller.bind(this)

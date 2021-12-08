@@ -34,13 +34,15 @@ function Card(props) {
           </button>
           </Link>
 
+          <Link to={topic_link}>
           <button type="button" class="btn btn-primary btn-sm position-relative">
-          Unread 
+            Unread 
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {props.topic.unread}
               <span class="visually-hidden">unread messages</span>
             </span>
           </button>
+          </Link>
         </div>
       </div>
     </div>

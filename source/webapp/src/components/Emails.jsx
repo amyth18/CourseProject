@@ -16,7 +16,7 @@ const columns = [
             if (row.email_topics == null) {
                 return ""
             } else {
-                row.email_topics.join(', ')
+                return row.email_topics.join(', ')
             }                
         }
     },
@@ -31,7 +31,8 @@ class Emails extends Component {
         let search = window.location.search;
         let params = new URLSearchParams(search);
         let topic = params.get('topic');
-        fetch('http://localhost:8080/emails?topic=' + topic)
+        const api = process.env.REACT_APP_API_ENDPOINT + '/emails?topic=' + topic
+        fetch(api)
         .then(res => res.json())
         .then((data) => {
             this.setState({ emails: data })
