@@ -4,15 +4,21 @@ import DataTable from 'react-data-table-component';
 const columns = [
     {
         name: 'From',
-        selector: row => row.from,
+        selector: row => row.from
     },
     {
         name: 'Subject',
-        selector: row => row.subject,
+        selector: row => row.subject
     },
     {
         name: 'Key Topics',
-        selector: row => row.topics.join(', '),
+        selector: row => {
+            if (row.email_topics == null) {
+                return ""
+            } else {
+                row.email_topics.join(', ')
+            }                
+        }
     },
 ];
 

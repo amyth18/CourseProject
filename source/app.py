@@ -187,7 +187,8 @@ def get_emails():
             "messageId": 1,
             "subject": 1,
             "from": 1,
-            "topics": 1
+            "topics": 1,
+            "email_topics": 1
         }
     )
     return json.dumps(list(emails))

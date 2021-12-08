@@ -1,53 +1,40 @@
 import base64
-from email.mime.multipart import MIMEMultipart
+import random
+import pandas as pd
+from email.mime.text import MIMEText
+
 from gmail_client import GmailClient
+from mongo_client import MongoDBClient
 
 
 def create_message(msg):
-    parsed_msg = dict()
-    parsed_msg["messageId"] = msg["id"]
-    parsed_msg["labels"] = msg["labelIds"]
-    # all the stuff is in the payload.
-    payload = msg['payload']
-    # TODO payload has a body element, will it have text element?
-    # extract only the required headers.
-    headers = payload.get("headers", list())
-    for header in headers:
-        name = header.get("name", "")
-        value = header.get("value", "")
-        if name.lower() == "from":
-            parsed_msg["from"] = value
-        elif name.lower() == "subject":
-            parsed_msg["subject"] = value
-
-    message = MIMEMultipart()
+    message = MIMEText(msg.text)
     message['to'] = "amythcloud@gmail.com"
-    message['from'] = parsed_msg["from"]
-    message['subject'] = parsed_msg["subject"]
-    message.set_payload(payload)
-
-    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+    message['from'] = "postamyth@gmail.com"
+    message['subject'] = msg.subject
+    raw_message = base64.urlsafe_b64encode(message.as_string().encode("utf-8"))
+    return {
+        'raw': raw_message.decode("utf-8")
+    }
 
 
 if __name__ == "__main__":
     gmc = GmailClient()
-    label_ids = ['Label_8904163162243193684']
-
+    mdb = MongoDBClient()
     count = 0
     first = True
-    next_page_token = None
+    mail_df = mdb.get_all_messages()
+    random_ids = random.sample(range(0, 2885), 800)
 
-    while first or next_page_token:
-        messages, next_page_token = gmc.list_mails_with_subjects_only(
-                        label_ids=label_ids,
-                        page_token=next_page_token)
-        with open("send.log", "w") as sfd:
-            for m in messages:
-                raw_msg = gmc.get_message(m['id'], raw=True)
-                gmc.send_mail(create_message(raw_msg))
-                count += 1
-                print(f"Sent message no {count}")
-                break
+    with open("send.log", "w") as sfd:
+        for idx in range(len(mail_df)):
+            if idx not in random_ids:
+                continue
+            r = mail_df.loc[idx]
+            if str(r['from']).find("apartmentadda") >= 0 or \
+                    pd.isna(r['text']):
+                continue
+            gmc.send_mail(create_message(r))
+            count += 1
+            print(f"Sent message no {count}")
 
-        next_page_token = None
-        first = False
