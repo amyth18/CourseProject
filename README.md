@@ -8,13 +8,6 @@ This Readme file serves as our final documentation of our project. As per the su
 # Functional Goal(s)
 In spite of the advent of many communication tools e.g. social media, slack etc., emails still continues to occupy an important position in one's communiation tool chest. The main goal of this project code names "Maximus", was to perform topic modelling on a user's Inbox (Gmail) and assign topics to each email. We belive this would help users in dealing with a deluge of emails they recieve every day/month by summarizing the main topics dicovered in their Inbox (e.s.p the unread emails) and help them focus on the most important emails that they are most interested.
 
-# Team Members
-
-Name | Email Address
---- | --- 
-Ameet Deulgaonkar | ameetd2@illinois.edu
-Praveen Purohit | purohit4@illinois.edu
-
 # What did we accomplish?
 We were able to build a basic WebApp (dockerized python based Flask application) that downloads emails from a user's Gmail Inbox 
 and discovers the latent topics in the email corpus. We used the LDA implementation from Gensim package for topic modelling. 
@@ -77,3 +70,11 @@ There are 2 major challenges we ran into during this project.
 1. In order to produce meaningful results for each user's Inbox we believe the number of topics (and other model paramters) needs to be determined more dynamically as it can differ for each user's Inbox. This can be quite time consuming especially for large Inbox sizes.
 2. We believe we can use the topics assigned to each email can be useful/effective in clustering similar emails or help user find related emails easily.
 3. Use topic labels as additional input/features for spam vs. ham classification.
+
+# Team Members and Contributions
+
+Name | Email Address | Contributions
+--- | --- | ---
+Ameet Deulgaonkar | ameetd2@illinois.edu | TBD
+Praveen Purohit | purohit4@illinois.edu  | TBD
+
