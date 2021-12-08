@@ -1,9 +1,10 @@
+# Key Documents
+* Final Presentation Video ([link](https://uofi.box.com/s/pw20ceb2eq5meilf22voevkp47ta3zrp))
+* Project Proposal ([link](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf))
+* Mid Term Progress Report ([link](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Progress%20Report.pdf))
+
 # Overview
 This Readme file serves as the final documentation of our project. As per the submission guidelines this document covers our original functional goals as stated our proposal, what we were able to accomoplish and implementation details. We also provide details about installation and user guide for our application. We conclude with key challenges we faced during the project and some future work.
-
-# Related Documents
-* Project Proposal ([Project Proposal.pdf](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf))
-* Mid Term Progress Report ([CS410 Project Progress Report.pdf](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Progress%20Report.pdf))
 
 # Functional Goal(s)
 In spite of the advent of many communication tools e.g. social media, slack etc., emails still continues to occupy an important position in one's communiation tool chest. The main goal of this project code names "Maximus", was to perform topic modelling on a user's Inbox (Gmail) and assign topics to each email. We belive this would help users in dealing with a deluge of emails they recieve every day/month by summarizing the main topics dicovered in their Inbox (e.s.p the unread emails) and help them focus on the most important emails that they are most interested.
@@ -28,15 +29,16 @@ There are 2 ways to install and use the application.
 5.  The application can be accessed at url ```http://localhost:8080```
 
 ### Or, Use our Cloud Instance
-1. If you do not want to run locally or have run into issues, you can choose to access the application hosted at ```http://tbd:8080```
-2. In this mode you directly start from step#5 above.
+1. If you do not want to run locally or have run into issues, you can choose to access the application hosted at ```http://138.68.131.219:8080```
+2. This instance is already configured with a test gmail account (amythcloud@gmail.com). See details in the below section.
 
 ### Getting Started with Topic Discovery
 1. Now for the fun part. To discover latent topics in your Gmail Inbox (only Gmail for now) you will have to authorize the app to read emails from your Inbox. Don't panic! we are not going to read all your email :-). Instead, We ask you add a label called ```cs410``` for emails that you are OK with app accessing it e.g. spam mail, promotions etc. We ONLY read emails tagged ```cs410``` from your inbox, if you have not tagged anything we read zero emails.
 2. This is not much of an issue when running the app locally on our computer (data is in our computer, just like your any other desktop email client) as much as it is when using cloud instance.
-3. If you want to play it absolutely safe (understandably so), you can use the "test" gmail account we have setup (id: amythcloud@gmail.com, password:?) with some pre-seeded emails.
-4. Hitting the url first time will automatically direct you to Google to get your authorization for accessing your inbox. [handle issue with test account, give access to amythcloud?]
-5. Once authorization is successful, you can hit the ```Sync Emails``` at the top right corner and hit ```Sync``` on the popped dialog and wait for spinner to stop. In case of error(s) a red badge appears on the button, click on the button to open the same dialog again to know the cause. The sync may take time depending on emails and network speed. The blue badge shows total cound of downloaded message.
+3. Note: Since our application has not gone through Google certification, we will need to explicitly add your gmail id in the app tester list. Please send your gmail id to ameetd2@illinois.edu to get your gmail id added as a tester for this app.
+4. If you want to play it absolutely safe (understandably so), you can use the "test" gmail account we have setup (mailID: amythcloud@gmail.com) with some pre-seeded emails. Since this is public repo, please email ameetd2@illinois.edu for the password for this test gmail account.
+5. Hitting the url first time will automatically direct you to Google to get your authorization for accessing your inbox.
+6. Once authorization is successful, you can hit the ```Sync Emails``` at the top right corner and hit ```Sync``` on the popped dialog and wait for spinner to stop. In case of error(s) a red badge appears on the button, click on the button to open the same dialog again to know the cause. The sync may take time depending on emails and network speed. The blue badge shows total cound of downloaded message.
 7. Once ```Sync Email``` button show green tick mark, hit the ```Analyze``` button to discover topics. Again wait still the spinner stops and a green tick mark appears on the ```Analyze Emails``` button.
 8. Once you see a green tick mark on the ```Analyze Emails``` button, **REFRESH** the dashboard page to see all the topics discovered in our Inbox :-).
 
@@ -55,6 +57,9 @@ This is one of key components of the application as the success of topic modelin
 
 ### Topic Modeling Engine
 This module is the heart of the application. It loads pre-processed emails from the MongoDB collection constructs a vocabulary followed by a TF-IDF transformation of each email and then trains a LDA model using ```Gensim``` python package. The parameters of the model like ```#topics```, ```passes``` and ```iterations``` are fixed based on cross validation exercise that was done out-of-band inorder to reduce the topic discovery time. We also use the topic coherence metric as decribed [here](https://rare-technologies.com/what-is-topic-coherence/) to select the topics whose constituent words are most coherent. Using the trained LDA model we then discover the topic coverage for each email and tag each email with a set of topic(s) with  ```>=.30``` coverage in the email. The code for this module can ```topic_model.py```.
+
+### Topic Insights Per Email
+The code for this module is in the file "topic_model_per_email.py". In this module we go through all emails in batches of 10 and extract Topic insights for the emails. For each batch of 10 emails, we use NMF to discover 40 topics using unigrams, bigrams and trigrams. The intent is to have very high quality topics. After fitting the data and finding the topics, we pick the top 3 topics with the highest scores for each email. The reason we only do batches of 10, is that if we pick more emails, we would still want to maintain a 1:3 or 1:4 ratio of emails:topics to ensure we extract high quality topics. This would result in a huge sparse matrix and make the fit and transform very slow. We also tried TruncuatedSVD and LDA but found that NMF gave the best results after visual inspection.
 
 ### Topic Dashboard
 This is the front end of the application build using ```ReactJS```. The code is located in the ```source/webapp``` folder. The front end shows simple ```ReactJS``` cards, one for each topic discovered. Inside each card we should top10 words with highest probability mass. We also list of message that have a significant coverage of this topic >0.30) categorized as read vs. unread.
