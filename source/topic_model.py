@@ -21,6 +21,7 @@ class TopicModel:
         df.loc[df.text == "", 'text'] = df.loc[df.text == ""]['subject']
         df.loc[df.text.isna(), 'text'] = df[df.text.isna()]['subject']
         emails = df['text'].tolist()
+        print(emails)
         # Split the documents into tokens.
         tokenizer = RegexpTokenizer(r'\w+')
         for idx in range(len(emails)):
@@ -36,7 +37,6 @@ class TopicModel:
                 if '_' in token:
                     # Token is a bigram, add to document.
                     emails[idx].append(token)
-
         self._tokenized_emails = emails
         self._msg_ids = df['_id'].tolist()
 
@@ -53,7 +53,7 @@ class TopicModel:
                 topic["words"].append(word)
             topic_list.append(topic)
         # save to DB.
-        logger.debug(topic_list)
+        logger.info(topic_list)
         for topic in topic_list:
             self._mdb.get_db_handle().topics.replace_one(
                     {"_id": topic['topic']},
@@ -84,8 +84,9 @@ class TopicModel:
         self._load_messages()
         # Create a dictionary representation of the documents.
         dictionary = Dictionary(self._tokenized_emails)
-        # Filter out words that occur less than 20 documents, or more than 50% of the documents.
-        dictionary.filter_extremes(no_below=50, no_above=0.5)
+        # Filter out words that occur less than 1% documents, or more than 50% of the documents.
+        lower_cut_off = int(len(self._tokenized_emails) * 0.1)
+        dictionary.filter_extremes(no_below=lower_cut_off, no_above=0.5)
         # Bag-of-words representation of the documents.
         corpus = [dictionary.doc2bow(email) for email in self._tokenized_emails]
         # use TF-IDF transformation
@@ -113,7 +114,7 @@ class TopicModel:
             eval_every=eval_every
         )
         top_topics = self._model.top_topics(corpus)
-        logger.debug(top_topics)
+        logger.info(top_topics)
         self._save_topics(top_topics)
         email_topics = self._model[corpus_tfidf]
         self._update_email_topics(email_topics)

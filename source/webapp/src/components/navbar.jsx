@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import Settings from './SettingsModal'
+import { Navbar } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 
-class NavBar extends Component {
+class MyNavBar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-light bg-light">
-        <div className="container-fluid">
-          <span className="navbar-brand mb-0 h1">GMail Inbox</span>
+      <Navbar bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand href="/">Gmail Inbox</Navbar.Brand>
           <form className="d-flex">
             <Settings />
           </form>
-        </div>
-      </nav>
+        </Container>
+      </Navbar>
     )
   }
 }
 
-export default NavBar
+export default MyNavBar

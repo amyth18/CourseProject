@@ -26,6 +26,7 @@ COPY utils.py .
 COPY webapp/build webapp/build
 
 ENV MONGO_CONN_STRING "mongodb://mongodb:27017"
+ENV MAX_EMAILS 5000
 EXPOSE 8080
 CMD ["python3", "app.py"]
 

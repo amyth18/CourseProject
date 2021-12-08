@@ -4,22 +4,21 @@ import time
 from logger import logger
 import traceback
 import mongo_client
+import os
 
-CLIENT_SECRETS_FILE = "client_secret.json"
-ACCESS_TOKEN_FILE = "token.pickle"
+
+MAX_EMAIL = int(os.environ.get("MAX_EMAILS", 5000))
 
 
 class DataPipe:
-    def __init__(self, test_run=False):
+    def __init__(self):
         self._gmail_client = GmailClient()
         self._mongodb_client = MongoClient(mongo_client.conn_string)
         self._db = self._mongodb_client.maximus
         self._downloaded = 0
-        self._test_run = test_run
 
     # TODO: incremental sync
     # TODO: make this code multi-threaded or use async.
-    # TODO: take label as input from user.
     def sync_data(self, label=None):
         try:
             all_labels = self._gmail_client.list_labels()['labels']
@@ -35,7 +34,7 @@ class DataPipe:
                                             label_ids=label_ids)
             self.store_messages(messages)
             # now paginate and fetch all emails.
-            while (not self._test_run) and next_page_token:
+            while (self._downloaded < MAX_EMAIL) and next_page_token:
                 messages, next_page_token = self._gmail_client.list_emails(
                                                 label_ids=label_ids,
                                                 page_token=next_page_token)

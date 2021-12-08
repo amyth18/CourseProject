@@ -105,7 +105,6 @@ class GmailClient:
                 # TODO log info.
                 continue
             data = body.get("data", "")
-            size = int(body.get("size", 0))
             if mime_type == "text/plain":
                 if data != "":
                     text = urlsafe_b64decode(data).decode()
@@ -126,14 +125,17 @@ class GmailClient:
                 part_queue.extend(nested_parts)
         return parsed_msg
 
-    def get_message(self, msg_id):
+    def get_message(self, msg_id, raw=False):
         gmail = googleapiclient.discovery.build(
             API_SERVICE_NAME,
             API_VERSION,
             credentials=self.get_credentials())
         raw_msg = gmail.users().messages().get(userId='me', id=msg_id).execute()
         logger.debug(f"Downloaded message {msg_id}.")
-        return GmailClient._parse_msg(raw_msg)
+        if raw:
+            return raw_msg
+        else:
+            return GmailClient._parse_msg(raw_msg)
 
     def send_mail(self, message):
         try:

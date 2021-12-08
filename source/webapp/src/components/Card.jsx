@@ -7,6 +7,7 @@ class Card extends Component {
   }
 
   render() {
+    const href = "/list-emails?topic=" + this.state.topic.topic
     return (
       <div class="card">
         <h5 class="card-header">Topic: {this.state.topic.topic}</h5>
@@ -14,13 +15,13 @@ class Card extends Component {
           <h6 class="card-subtitle mb-2 text-muted">Keywords: {this.state.topic.keywords.join(', ')}</h6>
           <br/>
           <div class="d-grid gap-4 d-md-flex">
-            <button type="button" class="btn btn-secondary btn-sm position-relative">
+            <a class="btn btn-secondary btn-sm position-relative" href={href}>
               All Messages
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {this.state.topic.total}
                 <span class="visually-hidden">unread messages</span>
               </span>
-            </button>
+            </a>
 
             <button type="button" class="btn btn-primary btn-sm position-relative">
             Unread 

@@ -1,17 +1,5 @@
 * seed emails in amythcloud@gmail.com
+* presentation
+* deploy in DO server
 
-* meaningful topic name (some ideas below)
-    * pre-defined topic (with seed words), find closet match
-
-* list emails view (to launch into gmail if possible)
-    * and per email topic?
-
-* documentation and presentation.
-
-* raw email dump to Praveen.
-
-NOTE TO MYSELF:
-DON'T SWEAT ABOUT MAKING DEPLOYMENT FANCY.
-JUST INSTALL "FRESH" DOCKER CONTAINERS ON DG SERVER AND PROVIDE CREDENTIALS
-NO NEED TO PROVIDE RESET OPTION AS WELL. ONLY BUILD A WAY TO LAUNCH AUTH
-WORKFLOW AND DOCKER COMPOSE. THAT'S ALL!!
+* documentation

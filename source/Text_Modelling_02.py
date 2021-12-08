@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 import numpy as np
 
@@ -10,6 +8,10 @@ from sklearn.decomposition import NMF
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+
+import sys
+from mongo_client import MongoDBClient
+from logger import logger
 
 Number_of_Topics = None
 
@@ -91,22 +93,31 @@ def do_for_subset(iteration_number, number_of_rows, Num_rows, df_main):
     """
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
+    # if no arguments are 'file' load data from
+    # emails.csv else load from mongodb
+    df_main = None
+    if len(sys.argv) == 1 or sys.argv[1] == "file":
+        df_main = pd.read_csv("emails.csv")
+    elif sys.argv[1] == "db":
+        mdb = MongoDBClient()
+        df_main = mdb.get_all_messages()
+    else:
+        logger.error("Invalid data source should be 'file' or 'db'.")
 
-    filename = "emails.csv"
-    df_main = pd.read_csv(filename)#, skiprows=skip)
     df_main.loc[:, "NMF_topic"] = ""
-    #df_main.loc[:, "TruncatedSVD_topic"] = ""
-    #df_main.loc[:, "LDA_topic"] = ""
 
+    # df_main.loc[:, "TruncatedSVD_topic"] = ""
+    # df_main.loc[:, "LDA_topic"] = ""
 
     Number_of_Topics = 40
     Num_rows = 10
-    # we will pick 3 times same number of rows in df as number_of_topics, for each iteration until all rows in df are done
+    # we will pick 3 times same number of rows in df as number_of_topics,
+    # for each iteration until all rows in df are done
     total_rows = df_main.shape[0]
-    print("total rows = ", total_rows)
+    logger.info("total rows = ", total_rows)
     number_of_iterations = total_rows//Num_rows
-    print("number of iterations = ", number_of_iterations)
+    logger.info("number of iterations = ", number_of_iterations)
 
     for i in range(0, number_of_iterations):
         number_of_rows = Num_rows
@@ -116,7 +127,6 @@ if __name__=="__main__":
         df_main.loc[df.index, df.columns] = df
 
     df_main.to_csv("email_topics.csv")
-
-    print("end")
+    logger.info("end")
 
 

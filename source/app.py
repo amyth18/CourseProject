@@ -1,18 +1,16 @@
 import os
 import flask
-import requests
 import pickle
 import json
 
-import google.oauth2.credentials
 import google_auth_oauthlib.flow
 
 from flask import request
 from flask_cors import CORS, cross_origin
 
-from gmail_client import GmailClient
 from task_mgr import TaskMgr, data_sync_task, analyze_data_task
 from mongo_client import MongoDBClient
+from logger import logger
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -46,17 +44,6 @@ def index():
     if not os.path.exists(ACCESS_TOKEN_FILE):
         return flask.redirect("/authorize")
     return app.send_static_file("index.html")
-
-
-@app.route('/emails')
-def list_emails():
-    # TODO: redirect to authorize if token not found.
-    credentials = None
-    with open(ACCESS_TOKEN_FILE, "rb") as tf:
-        credentials = pickle.load(tf)
-    gmc = GmailClient()
-    emails = gmc.list_emails()
-    return json.dumps(emails)
 
 
 @app.route('/authorize')
@@ -187,6 +174,25 @@ def get_topic_summary():
     return json.dumps(result)
 
 
+@app.route('/emails')
+@cross_origin()
+def get_emails():
+    topic = request.args.get('topic')
+    logger.debug(topic)
+    emails = mdb_client.get_db_handle().emails.find(
+        {
+            "topics": {"$all": [topic]}
+        },
+        {
+            "messageId": 1,
+            "subject": 1,
+            "from": 1,
+            "topics": 1
+        }
+    )
+    return json.dumps(list(emails))
+
+
 def credentials_to_dict(credentials):
     return {'token': credentials.token,
             'refresh_token': credentials.refresh_token,
@@ -204,7 +210,7 @@ def reset_running_jobs():
     mdb_h = mdb_client.get_db_handle()
 
     cur = mdb_h.sync_status.find(
-            {'_id': 1}
+        {'_id': 1}
     )
 
     if cur.count() == 0:
@@ -233,8 +239,8 @@ def reset_running_jobs():
             )
 
     cur = mdb_h.analyze_status.find(
-            {'_id': 1}
-        )
+        {'_id': 1}
+    )
 
     if cur.count() == 0:
         # very first time.
