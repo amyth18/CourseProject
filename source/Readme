@@ -1,18 +1,1 @@
-1. clone git repo.
-
-2. download mongodb docker container
-    $>docker pull mongo
-
-3. start mongo db
-    $>mongo.sh
-
-4. setup env and dependencies (not the "." before script)
-    $> . ./setup.sh
-
-5. start the app
-    $> python app.py
-
-6. copy the client_secret.json to top folder.
-
-7. launch the WebApp in browser http://localhost:8080
 
