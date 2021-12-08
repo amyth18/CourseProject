@@ -1,7 +1,7 @@
 # Key Documents
-* [Final Presentation Video](https://uofi.box.com/s/pw20ceb2eq5meilf22voevkp47ta3zrp)
-* [Project Proposal](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf)
-* [Mid Term Progress Report](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Progress%20Report.pdf)
+* Final Presentation Video ([link](https://uofi.box.com/s/pw20ceb2eq5meilf22voevkp47ta3zrp))
+* Project Proposal ([link](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf))
+* Mid Term Progress Report ([link](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Progress%20Report.pdf))
 
 # Overview
 This Readme file serves as the final documentation of our project. As per the submission guidelines this document covers our original functional goals as stated our proposal, what we were able to accomoplish and implementation details. We also provide details about installation and user guide for our application. We conclude with key challenges we faced during the project and some future work.
