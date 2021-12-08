@@ -1,9 +1,10 @@
+# Key Documents
+* [Final Presentation Video](https://uofi.box.com/s/pw20ceb2eq5meilf22voevkp47ta3zrp)
+* [Project Proposal](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf)
+* [Mid Term Progress Report](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Progress%20Report.pdf)
+
 # Overview
 This Readme file serves as the final documentation of our project. As per the submission guidelines this document covers our original functional goals as stated our proposal, what we were able to accomoplish and implementation details. We also provide details about installation and user guide for our application. We conclude with key challenges we faced during the project and some future work.
-
-# Related Documents
-* Project Proposal ([Project Proposal.pdf](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Proposal.pdf))
-* Mid Term Progress Report ([CS410 Project Progress Report.pdf](https://github.com/amyth18/CourseProject/blob/main/CS410%20Project%20Progress%20Report.pdf))
 
 # Functional Goal(s)
 In spite of the advent of many communication tools e.g. social media, slack etc., emails still continues to occupy an important position in one's communiation tool chest. The main goal of this project code names "Maximus", was to perform topic modelling on a user's Inbox (Gmail) and assign topics to each email. We belive this would help users in dealing with a deluge of emails they recieve every day/month by summarizing the main topics dicovered in their Inbox (e.s.p the unread emails) and help them focus on the most important emails that they are most interested.
