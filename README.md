@@ -23,7 +23,7 @@ There are 2 ways to install and use the application.
 
 ### Local Install (personal instance)
 1. The application can be installed locally on your laptop/deskop (or a VM in the cloud). 
-2. To install the application you will need Docker installed on your machine. If you dont already have docker installed, please visit [this site](https://docs.docker.com/get-docker/) to install docker for your OS.
+2. To install the application you will need Docker Desktop installed on your machine. If you don't have it already, it is fairly simple to install, please go [here](https://hub.docker.com/editions/community/docker-ce-desktop-windows) if you work on windows OS or [here](https://hub.docker.com/editions/community/docker-ce-desktop-mac) if you are a MacOS user.
 3.  Clone this git repository
 4.  cd into ```source/``` folder and run the command ```docker-compose up```. This should bring up the application.
 5.  The application can be accessed at url ```http://localhost:8080```
